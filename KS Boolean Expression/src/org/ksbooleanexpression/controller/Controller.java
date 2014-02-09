@@ -649,7 +649,7 @@ public class Controller implements View {
 	public void simplifyNumericFunction(String[] sets0, String[] sets1,
 			int nbrVar, String varOrder) {
 
-		int table[] = new int[(int) Math.pow(2, nbrVar)];
+		boolean table[] = new boolean[(int) Math.pow(2, nbrVar)];
 		if (sets1 == null && sets0 == null)
 			JOptionPane.showMessageDialog(null,
 					Tools.getLocalizedString("ERROR_NUMFORM"),
@@ -658,17 +658,17 @@ public class Controller implements View {
 		else {
 			if (sets1 != null) {
 				for (int j = 0; j < table.length; j++)
-					table[j] = 0;
+					table[j] = false;
 
 				for (int i = 0; i < sets1.length; i++) {
-					table[Integer.valueOf(sets1[i])] = 1;
+					table[Integer.valueOf(sets1[i])] = true;
 				}
 			} else if (sets0 != null) {
 				for (int j = 0; j < table.length; j++)
-					table[j] = 0;
+					table[j] = false;
 
 				for (int i = 0; i < sets0.length; i++) {
-					table[Integer.valueOf(sets0[i])] = 1;
+					table[Integer.valueOf(sets0[i])] = true;
 				}
 			}
 			solveFromTruthTable(table, nbrVar, varOrder);
@@ -686,7 +686,7 @@ public class Controller implements View {
 	 * @param varOrder
 	 *            l'ordre des variables
 	 */
-	public void solveFromKMap(int kmap[][], int nbrVar, String varOrder) {
+	public void solveFromKMap(boolean kmap[][], int nbrVar, String varOrder) {
 		Simplification simplify = new Simplification(kmap, nbrVar, varOrder,
 				this);
 		simplify.launchSimplification(Type.KARNAUGH_MAP);
@@ -705,7 +705,7 @@ public class Controller implements View {
 	 * @param varOrder
 	 *            l'ordre des variables
 	 */
-	public void solveFromTruthTable(int ttable[], int nbrVar, String varOrder) {
+	public void solveFromTruthTable(boolean ttable[], int nbrVar, String varOrder) {
 		Simplification simplify = new Simplification(ttable, nbrVar, varOrder,
 				this);
 		simplify.launchSimplification(Type.TRUTH_TABLE);

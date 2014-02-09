@@ -291,61 +291,31 @@ public class Tools implements View {
 	 *            nombre de variables
 	 * @return tableau qui contient les noms des colonnes.
 	 */
-	public static String[] getColonneName(int nbrVar) {
-		String[] names = null;
-		switch (nbrVar) {
-		case 1:
-		case 2: {
-			String columnNane[] = { "", "0", "1" };
-			names = columnNane;
-			break;
-		}
+	public static String[] getColonneName(int nbVar) {
+		int bits;
+		if (nbVar % 2 == 0)
+			bits = nbVar /2;
+		else
+			bits = nbVar/2 +1;
 
-		case 3: {
-			String columnNane[] = { "", "00", "01", "11", "10" };
-			names = columnNane;
-			break;
-		}
+		return getGrayCode((int) Math.pow(2, Math.ceil((double) nbVar / 2)),bits);
+	}
 
-		case 4: {
-			String columnNane[] = { "", "00", "01", "11", "10" };
-			names = columnNane;
-			break;
-		}
-
-		case 5: {
-			String columnNane[] = { "", "000", "001", "011", "010", "110",
-					"111", "101", "100" };
-			names = columnNane;
-			break;
-		}
-
-		case 6: {
-			String columnNane[] = { "", "000", "001", "011", "010", "110",
-					"111", "101", "100" };
-			names = columnNane;
-			break;
-		}
-
-		case 7: {
-			String columnNane[] = { "", "0000", "0001", "0011", "0010", "0110",
-					"0111", "0101", "0100", "1100", "1101", "1111", "1110",
-					"1010", "1011", "1001", "1000" };
-			names = columnNane;
-			break;
-		}
-
-		case 8: {
-			String columnNane[] = { "", "0000", "0001", "0011", "0010", "0110",
-					"0111", "0101", "0100", "1100", "1101", "1111", "1110",
-					"1010", "1011", "1001", "1000" };
-			names = columnNane;
-			break;
-		}
+	private static String[] getGrayCode(int n, int bits) {
+		String[] names = new String[n];
+		for (int i = 0; i < n; i++) {
+			names[i] = addLeadingZeros(Integer.toBinaryString((i >> 1) ^ i),bits);
 
 		}
 		return names;
+	}
 
+	private static String addLeadingZeros(String binaryNumber,int nbBits) {
+		int len = binaryNumber.length();
+		for (int i = 0; i < nbBits-len; i++) {
+			binaryNumber = "0" + binaryNumber;
+		}
+		return binaryNumber;
 	}
 
 	/**
@@ -393,64 +363,14 @@ public class Tools implements View {
 
 	/**
 	 * Donne les noms des lignes d'une table de Karnaugh<br>
-	 * pour une fonction donn�e.
+	 * pour une fonction donnée.
 	 *
 	 * @param nbrVar
 	 *            nombre de variables
 	 * @return tableau qui contient les noms des lignes.
 	 */
-	public static String[] getLigneName(int nbrVar) {
-		String names[] = null;
-		switch (nbrVar) {
-		case 2: {
-			String ligneName[] = { "0", "1" };
-			names = ligneName;
-			break;
-		}
-
-		case 3: {
-			String ligneName[] = { "0", "1" };
-			names = new String[2];
-			names = ligneName;
-			break;
-		}
-
-		case 4: {
-			String ligneName[] = { "00", "01", "11", "10" };
-			names = ligneName;
-			break;
-		}
-
-		case 5: {
-			String ligneName[] = { "00", "01", "11", "10" };
-			names = ligneName;
-			break;
-		}
-
-		case 6: {
-			String ligneName[] = { "000", "001", "011", "010", "110", "111",
-					"101", "100" };
-			names = ligneName;
-			break;
-		}
-
-		case 7: {
-			String ligneName[] = { "000", "001", "011", "010", "110", "111",
-					"101", "100" };
-			names = ligneName;
-			break;
-		}
-
-		case 8: {
-			String ligneName[] = { "0000", "0001", "0011", "0010", "0110",
-					"0111", "0101", "0100", "1100", "1101", "1111", "1110",
-					"1010", "1011", "1001", "1000" };
-			names = ligneName;
-			break;
-		}
-
-		}
-		return names;
+	public static String[] getLigneName(int nbVar) {
+		return getGrayCode((int) Math.pow(2, Math.floor(((double) nbVar / 2))),nbVar/2);
 
 	}
 
@@ -737,11 +657,10 @@ public class Tools implements View {
 				if (j == 0)
 					s += "<th>" + linesNames[i] + "</th>";
 				else {
-					if (kmap.getCellValue(i, j - 1) == 1)
-						s += "<td class=\"ones\">"
-								+ kmap.getCellValue(i, j - 1) + "</td>";
+					if (kmap.getCellValue(i, j - 1))
+						s += "<td class=\"ones\">1</td>";
 					else
-						s += "<td>" + kmap.getCellValue(i, j - 1) + "</td>";
+						s += "<td>0</td>";
 				}
 			}
 			s += "</tr><tr>";
@@ -801,11 +720,10 @@ public class Tools implements View {
 			s.append("<tr>");
 			for (int j = 0; j < nombreVars + 1; j++) {
 				if (j == nombreVars) {
-					if (tb.TruthTable[i] == 1)
-						s.append("<td class=\"ones\">" + tb.TruthTable[i]
-								+ "</td>");
+					if (tb.TruthTable[i])
+						s.append("<td class=\"ones\">1</td>");
 					else
-						s.append("<td>" + tb.TruthTable[i] + "</td>");
+						s.append("<td>0</td>");
 				} else {
 					if ((i % ((int) Math.pow(2, nombreVars - j))) < ((int) Math
 							.pow(2, nombreVars - j - 1)))

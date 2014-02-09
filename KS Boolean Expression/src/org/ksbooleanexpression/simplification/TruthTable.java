@@ -36,7 +36,7 @@ public class TruthTable {
 
 	private String exprBool;
 	private String variables;
-	public int TruthTable[];
+	public boolean TruthTable[];
 	private SyntaxErrorException error;
 
 	/**
@@ -120,7 +120,7 @@ public class TruthTable {
 	     if(variables.length() >8) error = new SyntaxErrorException(Tools.getLocalizedString("TOO_MUCH_VARIABLES"));
 
 	     //on initialise la table de v�rit�
-	     TruthTable= new int[(int) Math.pow(2, variables.length())];
+	     TruthTable= new boolean[(int) Math.pow(2, variables.length())];
 	     int lesBit[]= new int[variables.length()];
 	     for(int i=0; i<lesBit.length; i++)
 			{
@@ -143,7 +143,7 @@ public class TruthTable {
 		    	k++;
 		     }
 	    	 Evaluator e = new Evaluator(new String(expression));
-	    	 int r;
+	    	 boolean r;
 			try {
 				r = e.evaluate();
 		    	TruthTable[j]=r;
