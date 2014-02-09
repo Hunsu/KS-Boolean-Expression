@@ -487,7 +487,7 @@ public class Tools implements View {
 	 */
 	public static String intialize() {
 		String s = "";
-		s += "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>";
+		s += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 		s += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
 				+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">" + "<head>";
 		s += "<link rel=\"stylesheet\" href=\"Style.css\" />";

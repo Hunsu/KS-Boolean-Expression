@@ -262,7 +262,6 @@ public class ResourceAction extends AbstractAction {
 
 		String smallIcon = getOptionalString(propertyPrefix + SMALL_ICON);
 		if (smallIcon != null) {
-			System.out.println(getClass());
 			Program.class.getClassLoader().getResource(smallIcon);
 			putValue(SMALL_ICON,
 					new ImageIcon(Program.class.getClassLoader().getResource(smallIcon)));

@@ -161,6 +161,8 @@ public class Controller implements View {
 		program.setEnabled(View.ActionType.DELETE, true);
 		program.setEnabled(View.ActionType.IMPORT, true);
 		program.getMainPanel().getValidationButton().setEnabled(false);
+		program.setEnabled(View.ActionType.UNDO, false);
+		program.setEnabled(View.ActionType.REDO, false);
 	}
 
 	/**
@@ -386,14 +388,15 @@ public class Controller implements View {
 	}
 
 	/**
-	 * Permet d'ouvrir un projet d�j� enregistr�</br> Un message d'erreur est
-	 * pr�vue en cas d'une</br> extension non prise en charge par l'application.
+	 * Permet d'ouvrir un projet déjà enregistré</br> Un message d'erreur est
+	 * prévue en cas d'une</br> extension non prise en charge par l'application.
 	 */
 	public void open() {
 
 		File f = Tools.showOpenDialog(Tools.getLocalizedString(ActionType.OPEN
 				.name() + ".Name"));
-		open(f.getAbsolutePath());
+		if(f != null)
+			open(f.getAbsolutePath());
 
 	}
 
@@ -798,7 +801,16 @@ public class Controller implements View {
 			} else {
 				program.getTabbedPane().setTitleAt(0,
 						Tools.getLocalizedString("PROJECT"));
-				if (program.getMainPanel().getTextField().getText()
+				if(program.getMainPanel().getxHTMLPanel().getDocumentTitle().equals("Welcome Page")){
+					try {
+						program.getMainPanel().getxHTMLPanel().setDocument(new File(Tools
+								.getLocalizedString("WELCOME_PAGE")));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				else{
+					if(program.getMainPanel().getTextField().getText()
 						.compareTo("") != 0)
 					if (program.getUserPreferences().getSolutionType()
 							.compareTo(SolutionType.DETAILLED_SOLUTION) == 0)
@@ -809,6 +821,7 @@ public class Controller implements View {
 								SolutionType.MINIMIZED_FUNCTION);
 				program.getMainPanel().lblF.setText(Tools
 						.getLocalizedString("FORMULA"));
+				}
 			}
 		}
 	}

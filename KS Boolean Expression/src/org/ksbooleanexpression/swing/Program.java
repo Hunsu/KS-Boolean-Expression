@@ -28,10 +28,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.ref.WeakReference;
-
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.Box;
@@ -69,7 +65,7 @@ import org.ksbooleanexpression.tools.View;
  */
 public class Program implements View, TreeSelectionListener {
 
-		private JFrame frame;
+	private JFrame frame;
 	private Controller controller;
 	private UserPreferences userPreferences;
 	private JPanel panel;
@@ -82,7 +78,8 @@ public class Program implements View, TreeSelectionListener {
 	private JPopupMenu popupMenu;
 
 	public static Image programIcon = Toolkit.getDefaultToolkit().getImage(
-			Tools.getApplicationFolder() + "resources/Program_Icone.jpg");
+			Program.class.getClassLoader().getResource(
+					"resources/Program_Icone.jpg"));
 
 	/**
 	 * Cr�er et l'interface de l'application
@@ -478,7 +475,6 @@ public class Program implements View, TreeSelectionListener {
 				try {
 					getUserPreferences().savePreferences();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				getController().exit();
@@ -552,7 +548,7 @@ public class Program implements View, TreeSelectionListener {
 	}
 
 	/**
-	 * Activer ou d�sactiver une action dont la cl� est <code>actionType</code>.
+	 * Activer ou désactiver une action dont la clé est <code>actionType</code>.
 	 */
 	public void setEnabled(ActionType actionType, boolean enabled) {
 		Action action = getActionMap().get(actionType);
@@ -605,8 +601,8 @@ public class Program implements View, TreeSelectionListener {
 		});
 
 		String title = Tools.getLocalizedString("about.title");
-		Icon icon = new ImageIcon(Tools.getApplicationFolder()
-				+ "resources/Program_Icone.jpg");
+		Icon icon = new ImageIcon(this.getClass().getClassLoader()
+				.getResource("resources/Program_Icone.jpg"));
 		JOptionPane.showMessageDialog(getFrame(), messagePane, title,
 				JOptionPane.INFORMATION_MESSAGE, icon);
 	}

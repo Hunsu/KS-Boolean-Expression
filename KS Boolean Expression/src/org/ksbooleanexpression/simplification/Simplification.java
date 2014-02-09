@@ -21,8 +21,10 @@ package org.ksbooleanexpression.simplification;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import org.ksbooleanexpression.controller.Controller;
@@ -670,10 +672,13 @@ public class Simplification implements View {
 			file.deleteOnExit();
 			s +="</body></html>";
 			try {
-				FileWriter fg = new FileWriter(file);
-				BufferedWriter bw = new BufferedWriter(fg);
-				bw.write(s);
-				bw.close();
+				Writer out = new BufferedWriter(new OutputStreamWriter(
+					    new FileOutputStream(file), "UTF-8"));
+					try {
+					    out.write(s);
+					} finally {
+					    out.close();
+					}
 			} catch (IOException e) {
 				System.err.println( e.getMessage() );}
 
