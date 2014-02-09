@@ -1,4 +1,4 @@
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.preferences;
 
 /*
  # KS Boolean Expression, Copyright (c) 2012 The Authors. / ks.contrubutors@gmail.com
@@ -14,7 +14,7 @@ package com.ksbooleanexpression;
  # details.
  #
  # You should have received a copy of the GNU General Public License along with
- # this program; if not, write to the Free Software Foundation,  Inc., 
+ # this program; if not, write to the Free Software Foundation,  Inc.,
  # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
@@ -31,11 +31,14 @@ import java.util.prefs.Preferences;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import org.ksbooleanexpression.tools.Tools;
+import org.ksbooleanexpression.tools.View;
+
 /**
  * Une classe pour sauvegarder les pr�f�rences de l'utilisateur
- * 
+ *
  * @author Meradi
- * 
+ *
  */
 public class UserPreferences implements View {
 	private static final String LANGUAGE = "language";
@@ -98,7 +101,7 @@ public class UserPreferences implements View {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return le look and feel utilis� par l'application
 	 */
 	public String getLookAndFeel() {
@@ -113,7 +116,7 @@ public class UserPreferences implements View {
 
 	/**
 	 * Retourner le nom de look and feel
-	 * 
+	 *
 	 * @param lookAndFeel
 	 * @param lookAndFeel
 	 *            le look and feel
@@ -133,7 +136,7 @@ public class UserPreferences implements View {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return la liste des langues disponible dans cette application
 	 * @throws MalformedURLException
 	 */
@@ -206,10 +209,10 @@ public class UserPreferences implements View {
 
 	/**
 	 * Sauvegarder les pr�f�rences de l'utilisateur
-	 * 
+	 *
 	 * @throws Exception
 	 *             si les pr�f�rences ne peuvent pas �tre sauvegarder
-	 * 
+	 *
 	 */
 	public void savePreferences() throws Exception {
 		preferences.put(LANGUAGE, language);
@@ -237,7 +240,7 @@ public class UserPreferences implements View {
 	/**
 	 * Affecter le langue et avertir les �couteurs s'il y a un changement de
 	 * langue
-	 * 
+	 *
 	 * @param string
 	 */
 	public void setLanguage(String newLanguage) {
@@ -257,7 +260,7 @@ public class UserPreferences implements View {
 
 	/**
 	 * Affecter le look and feel
-	 * 
+	 *
 	 * @param string
 	 */
 	public void setLookAndFeel(String newLookAndFeel) {

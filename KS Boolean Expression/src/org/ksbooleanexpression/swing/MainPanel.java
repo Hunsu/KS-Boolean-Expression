@@ -16,12 +16,11 @@
 # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -33,18 +32,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import javax.swing.text.PlainDocument;
 import javax.swing.undo.UndoManager;
 
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.controller.ControllerAction;
+import org.ksbooleanexpression.preferences.UserPreferences;
+import org.ksbooleanexpression.tools.Tools;
+import org.ksbooleanexpression.tools.View;
 import org.xhtmlrenderer.css.style.derived.RectPropertySet;
 import org.xhtmlrenderer.render.Box;
 import org.xhtmlrenderer.simple.FSScrollPane;
@@ -304,62 +304,3 @@ public class MainPanel implements View {
 	}
 }
 
-/**
- * Un JTextField qui affiche le text introduit en majuscules.
- *
- */
-class TextField extends JTextField {
-
-	static class TextDocument extends PlainDocument {
-
-		private static final long serialVersionUID = 1L;
-
-		public void insertString(int offs, String str, AttributeSet a)
-				throws BadLocationException {
-
-			if (str == null) {
-				return;
-			}
-			char[] upper = new char[str.length()];
-			int j = 0;
-			for (int i = 0; i < upper.length; i++) {
-				char c = Character.toUpperCase(str.charAt(i));
-				if ((c < 'A' || c > 'Z')
-						&& (c != '*' && c != '+' && c != '!' && c != '/'
-								&& c != '^' && c != '|' && c != '(' && c != ' ' && c != ')')) {
-					Toolkit.getDefaultToolkit().beep();
-					continue;
-				}
-
-				upper[j] = c;
-				j++;
-			}
-			if (j != str.length()) {
-				char[] t = new char[j];
-				for (int i = 0; i < j; i++) {
-					t[i] = upper[i];
-				}
-				upper = t;
-			}
-
-			super.insertString(offs, new String(upper), a);
-		}
-	}
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public TextField() {
-		super();
-	}
-
-	public TextField(int cols) {
-		super(cols);
-	}
-
-	protected Document createDefaultModel() {
-		return new TextDocument();
-	}
-}

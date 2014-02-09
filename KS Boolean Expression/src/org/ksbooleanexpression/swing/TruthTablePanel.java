@@ -12,13 +12,13 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along with
-# this program; if not, write to the Free Software Foundation,  Inc., 
+# this program; if not, write to the Free Software Foundation,  Inc.,
 # 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -43,16 +43,19 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.tools.Tools;
+
 
 /**
- * Modèle pour la table de vérité.
+ * Modï¿½le pour la table de vï¿½ritï¿½.
  *
  */
 class TruthTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private Object[][] data;
 	private String[] title;
-  
+
 	public TruthTableModel(Object[][] data,String[] title){
 	  this.data = data;
 	  this.title = title;
@@ -85,7 +88,7 @@ class TruthTableModel extends AbstractTableModel {
             return true;
         }
     }
-    
+
     public void setValueAt(Object value, int row, int col) {
         data[row][col] = value;
         fireTableCellUpdated(row, col);
@@ -93,14 +96,14 @@ class TruthTableModel extends AbstractTableModel {
 }
 
 /**
- * Boite de dialogue qui permet à l'utilisateurs d'introduire<br>
- * une nouvelle table de vérité<br>
+ * Boite de dialogue qui permet ï¿½ l'utilisateurs d'introduire<br>
+ * une nouvelle table de vï¿½ritï¿½<br>
  * @author Hamoudi, Meradi
  *
  */
 public class TruthTablePanel extends JDialog implements ChangeListener {
 
-	
+
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
@@ -109,7 +112,7 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 	private int truthTable[];
 
 	/**
-	 * Crée et affiche la boite de dialoque
+	 * Crï¿½e et affiche la boite de dialoque
 	 */
 	public TruthTablePanel(final Controller controller)  {
 		super(controller.program.getFrame());
@@ -139,7 +142,7 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 				Integer val = (Integer) spinner.getValue();
 				val = val.intValue();
 			for(int j=0; j<val+2; j++) table.getColumnModel().getColumn(j).setMaxWidth(40);
-				
+
 				this.scrollPane = new JScrollPane(this.table);
 				contentPanel.add(scrollPane, BorderLayout.CENTER);
 				this.contentPanel.add(scrollPane, FlowLayout.LEFT);
@@ -173,7 +176,7 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 				buttonPane.add(cancelButton);
 	}
         /**
-		  * Crée la ligne des titre de la table.
+		  * Crï¿½e la ligne des titre de la table.
 		  * @param nbrVars
 		  * @return
 		  */
@@ -187,9 +190,9 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 			columnNames[nbrVars.intValue()+1] = "S";
 			return columnNames;
 		}
-		
+
         /**
-		 * Crée et remplit la table de vérité.
+		 * Crï¿½e et remplit la table de vï¿½ritï¿½.
 		 * @param nbrVars nombre de variable de la fonction
 		 */
 		private Object[][] createRowData(Integer nbrVars) {
@@ -205,14 +208,14 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 					else data[i][j]   = new Integer(1);
 				}
 				}
-				
+
 			}
-				
+
 			return data;
 		}
         /**
-         * Crée la table de vérité.
-         * @return table 
+         * Crï¿½e la table de vï¿½ritï¿½.
+         * @return table
          */
 		private JTable createTable() {
 			TruthTableModel model = new TruthTableModel(createRowData((Integer) spinner.getValue()),
@@ -229,9 +232,9 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 			Integer col = (Integer) spinner.getValue();
 			return  col.intValue();
 		}
-		
+
     /**
-	 * Récupère les valeurs de la table de vérité intrduite
+	 * Rï¿½cupï¿½re les valeurs de la table de vï¿½ritï¿½ intrduite
 	 */
 	protected void getValues() {
 		truthTable = new int[(int) Math.pow(2, (Integer) spinner.getValue())];
@@ -240,12 +243,12 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 			String comboBoxValue = (String) this.table.getValueAt(i, col.intValue()+1);
 			char value = comboBoxValue.charAt(0);
 			if(value=='0') truthTable[i] = 0;
-			else truthTable[i] = 1;	
+			else truthTable[i] = 1;
 		}
 	}
      /**
 	 * Retourne l'ordre des variables dans la<br>
-	 * table de vérité.
+	 * table de vï¿½ritï¿½.
 	 * @return ordrVar l'ordre des variables.
 	 */
 	public String getVarOrder()
@@ -256,15 +259,15 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 		{
 			char c = (char) (65+i);
 			ordrVar = ordrVar+ String.valueOf(c);
-			
+
 		}
 		return ordrVar;
-		
+
 	}
-     
+
 	/**
-	  * Crée la colonne des valeurs de la fonction.
-	  * @param table 
+	  * Crï¿½e la colonne des valeurs de la fonction.
+	  * @param table
 	  * @param functionColumn
 	  */
 	public void setSColumn(JTable table,
@@ -283,14 +286,14 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 	       functionColumn.setCellRenderer(renderer);
 }
 
-	
+
 	public void stateChanged(ChangeEvent arg0) {
 		updateTable();
-		
+
 	}
 	/**
-	 * Permet de réinitialiser la table de vérité<br>
-	 * après redimentionnement de celle-ci<br>
+	 * Permet de rï¿½initialiser la table de vï¿½ritï¿½<br>
+	 * aprï¿½s redimentionnement de celle-ci<br>
 	 */
 	public void updateTable() {
 		this.table = createTable();
@@ -301,7 +304,7 @@ public class TruthTablePanel extends JDialog implements ChangeListener {
 		contentPanel.add(scrollPane, BorderLayout.CENTER);
 		this.getContentPane().repaint();
 		}
-		
+
 	}
 
 

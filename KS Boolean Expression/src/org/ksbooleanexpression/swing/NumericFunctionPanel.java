@@ -12,13 +12,13 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along with
-# this program; if not, write to the Free Software Foundation,  Inc., 
+# this program; if not, write to the Free Software Foundation,  Inc.,
 # 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -37,10 +37,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.tools.Tools;
+
 
 /**
  * Ouvre une boite de dialogue pour introduire<br>
- * une fonction numérique.
+ * une fonction numï¿½rique.
  * @author Hamoudi, Meradi
  *
  */
@@ -51,11 +54,11 @@ public class NumericFunctionPanel extends JDialog {
 	private JTextField textField_1;
 	private JTextField textField;
 	private JComboBox<Integer> nbrVarComboBox;
-	
+
 
 
 	/**
-	 * Crée et aafiche la boite de dialogue
+	 * Crï¿½e et aafiche la boite de dialogue
 	 */
 	public NumericFunctionPanel(final Controller controller) {
 		super(controller.program.getFrame());
@@ -66,34 +69,34 @@ public class NumericFunctionPanel extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		
-		
-		
+
+
+
 		textField_1 = new JTextField();
 		contentPanel.setLayout(null);
 		textField_1.setBounds(100, 137, 244, 22);
 		contentPanel.add(textField_1);
-		
+
 		textField = new JTextField();
 		textField.setBounds(100, 183, 244, 22);
 		contentPanel.add(textField);
-		
+
 		final JLabel indicationLabel = new JLabel(Tools.getLocalizedString("DEGITAL_FORM_INDICATION")
 				                                 + "15}");
 		indicationLabel.setBounds(28, 80, 210, 30);
 		indicationLabel.setFont(new Font("Arial", Font.PLAIN, 13));
 		contentPanel.add(indicationLabel);
-		
+
 		JLabel labelSetOnes = new JLabel("1");
 		labelSetOnes.setBounds(62, 137, 10, 22);
 		labelSetOnes.setFont(new Font("Franklin Gothic Book", Font.BOLD, 16));
 		contentPanel.add(labelSetOnes);
-		
+
 		JLabel labelSetZeros = new JLabel("0");
 		labelSetZeros.setBounds(62, 183, 10, 22);
 		labelSetZeros.setFont(new Font("Franklin Gothic Book", Font.BOLD, 16));
 		contentPanel.add(labelSetZeros);
-		
+
 		nbrVarComboBox = new JComboBox<Integer>();
 		nbrVarComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -108,16 +111,16 @@ public class NumericFunctionPanel extends JDialog {
 		nbrVarComboBox.setSelectedIndex(3);
 		nbrVarComboBox.setBounds(269, 37, 39, 20);
 		contentPanel.add(nbrVarComboBox);
-		
+
 		JLabel nbrVarLabel = new JLabel((Tools.getLocalizedString("NUMBER_OF_VARIABLES")));
 		nbrVarLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		nbrVarLabel.setBounds(95, 37, 164, 20);
 		contentPanel.add(nbrVarLabel);
-		
+
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-				
+
 			JButton cancelButton = new JButton((Tools.getLocalizedString("ButtonCancel")));
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -126,7 +129,7 @@ public class NumericFunctionPanel extends JDialog {
 			JButton okButton = new JButton("OK");
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					int nrVar=Integer.valueOf(nbrVarComboBox.getSelectedItem().toString());	
+					int nrVar=Integer.valueOf(nbrVarComboBox.getSelectedItem().toString());
 					controller.simplifyNumericFunction(getSets0(),getSets1(),nrVar,getVarOrder() );
 					dispose();
 					}});
@@ -136,12 +139,12 @@ public class NumericFunctionPanel extends JDialog {
 			cancelButton.setActionCommand("Cancel");
 			buttonPane.add(cancelButton);
 			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			this.setVisible(true);	
+			this.setVisible(true);
 		}
-	
+
 	/**
-	 * Retourne les lignes de la tables de vérité<br>
-	 * où la fonction et à 0.
+	 * Retourne les lignes de la tables de vï¿½ritï¿½<br>
+	 * oï¿½ la fonction et ï¿½ 0.
 	 */
 	public String[] getSets0(){
 		String[] sets =null;
@@ -157,32 +160,32 @@ public class NumericFunctionPanel extends JDialog {
 		}
 		catch(Exception e){}
 		return sets;
-		
+
 	}
-	
+
 	/**
-	 * Retourne les lignes de la tables de vérité<br>
-	 * où la fonction et à 1.
+	 * Retourne les lignes de la tables de vï¿½ritï¿½<br>
+	 * oï¿½ la fonction et ï¿½ 1.
 	 */
 	public String[] getSets1(){
 		String[] sets=null;
 		try{
 		sets = textField_1.getText().split(",");
-		if(textField_1.getText().length()<1) return null; 
+		if(textField_1.getText().length()<1) return null;
 		int x = Integer.valueOf(nbrVarComboBox.getSelectedItem().toString());
 		x = (int) Math.pow(2, x);
 		for(String s : sets){
 			int set = Integer.valueOf(s);
 			if (!(set <x))return null;
 		}
-			
+
 	}
 	catch(Exception e){}
 		return sets;
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Retourne l'ordre des variables
 	 */
@@ -194,12 +197,12 @@ public class NumericFunctionPanel extends JDialog {
 		{
 			char c = (char) (65+i);
 			ordrVar = ordrVar+ c;
-			
+
 		}
 		return ordrVar;
-		
+
 	}
-	
+
 }
 
 

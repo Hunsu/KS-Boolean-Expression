@@ -1,11 +1,13 @@
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.simplification.exception;
+
+import org.ksbooleanexpression.tools.Tools;
 
 public class SyntaxErrorException extends Exception {
 
 	private String message;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -13,12 +15,12 @@ public class SyntaxErrorException extends Exception {
 		message = Tools.getLocalizedString("SyntaxError")+ " : "+
 		Tools.getLocalizedString("ArithmeticError");
 	}
-	
+
 	public SyntaxErrorException(String cause, int position) {
 		message = Tools.getLocalizedString("SyntaxError") + " : " +
-		Tools.getLocalizedString("Cause")+ " : " + cause   + " : " +  
+		Tools.getLocalizedString("Cause")+ " : " + cause   + " : " +
 		Tools.getLocalizedString("Position") +  " : " + position;
-		
+
 	}
 
 	public SyntaxErrorException(String cause) {
@@ -33,6 +35,6 @@ public class SyntaxErrorException extends Exception {
 		return message;
 	}
 
-	
+
 
 }

@@ -1,6 +1,9 @@
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.simplification;
 
 import java.util.ArrayList;
+
+import org.ksbooleanexpression.simplification.exception.SyntaxErrorException;
+import org.ksbooleanexpression.tools.Tools;
 
 public class Evaluator {
 	

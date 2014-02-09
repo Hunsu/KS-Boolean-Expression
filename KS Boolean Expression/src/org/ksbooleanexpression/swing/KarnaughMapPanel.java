@@ -12,12 +12,12 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along with
-# this program; if not, write to the Free Software Foundation,  Inc., 
+# this program; if not, write to the Free Software Foundation,  Inc.,
 # 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -41,9 +41,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.tools.Tools;
+
 
 /**
- * Crée une boide de dialogue qui permet à<br>
+ * Crï¿½e une boide de dialogue qui permet ï¿½<br>
  * l'utilisateur d'introduire une table de Karnaugh.
  * @author Mounir Hamoudi, Rabah Meradi
  *
@@ -58,10 +61,10 @@ public class KarnaughMapPanel extends JDialog {
 	private int ktable[][];
 	private boolean allZero =true;
 
-	
+
 
 	/**
-	 * Crée et montre la boite de dialogue.
+	 * Crï¿½e et montre la boite de dialogue.
 	 */
 	public KarnaughMapPanel(final Controller controller) {
 		super(controller.program.getFrame());
@@ -88,19 +91,19 @@ public class KarnaughMapPanel extends JDialog {
 					}
 				});
 				panel.add(spinner);
-				
+
 			    JPanel pan = new JPanel();
 			    this.table = createTable();
 			    scrollPane = new JScrollPane(table);
 			    pan.add(scrollPane);
 				contentPanel.add(scrollPane, BorderLayout.CENTER);
 				this.contentPanel.add(scrollPane, FlowLayout.LEFT);
-				
-				
+
+
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			
+
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -112,7 +115,7 @@ public class KarnaughMapPanel extends JDialog {
 					}
 				});
 				getRootPane().setDefaultButton(okButton);
-			
+
 				JButton cancelButton = new JButton(Tools.getLocalizedString("ButtonCancel"));
 				cancelButton.setActionCommand("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
@@ -121,21 +124,21 @@ public class KarnaughMapPanel extends JDialog {
 					}
 				});
 				buttonPane.add(cancelButton);
-		this.setVisible(true);	
+		this.setVisible(true);
 	}
-	
-	
+
+
 	/**
-	 * Crée les nom des colonnes de la table
+	 * Crï¿½e les nom des colonnes de la table
 	 * @param value nombre de variables
 	 */
 	private String[] createcolumnNames(Integer value) {
 		return Tools.getColonneName(value.intValue());
 	}
-	
-	
+
+
 	/**
-     * Crée et remplit la table de Karnaugh.
+     * Crï¿½e et remplit la table de Karnaugh.
      * @param value nombre de variable de la fonction
      */
 	private Object[][] createRowData(Integer value) {
@@ -145,15 +148,15 @@ public class KarnaughMapPanel extends JDialog {
 		for (int i=0;i<lines;i++){
 			for (int j=0;j<column+1;j++){
 				if(j==0) data[i][j]=Tools.getLigneName(value.intValue())[i];
-				else data[i][j] ="0"; 
+				else data[i][j] ="0";
 				}
 			}
 		return data;
 	}
 
 	/**
-     * Crée la table de Karnaugh.
-     * @return table 
+     * Crï¿½e la table de Karnaugh.
+     * @return table
      */
 	private JTable createTable() {
 		Integer n = (Integer) spinner.getValue();
@@ -180,9 +183,9 @@ public class KarnaughMapPanel extends JDialog {
 		Integer col = (Integer) spinner.getValue();
 		return  col.intValue();
 	}
-	
+
 	/**
-	 * Permet de récupérer les valeurs introduite dans la table de Karnaugh
+	 * Permet de rï¿½cupï¿½rer les valeurs introduite dans la table de Karnaugh
 	 */
 	protected void getValues() {
 		Integer n= (Integer) spinner.getValue();
@@ -197,10 +200,10 @@ public class KarnaughMapPanel extends JDialog {
 			else {ktable[i][j-1]=1; allZero = false;}
 		}
 		}
-		
+
 	}
-	
-	
+
+
 	 /**
 	 * Retourne l'ordre des variables dans la table
 	 */
@@ -212,16 +215,16 @@ public class KarnaughMapPanel extends JDialog {
 		{
 			char c = (char) (65+i);
 			ordrVar = ordrVar+ c;
-			
+
 		}
 		return ordrVar;
-		
+
 	}
 
-		
+
 		/**
-		 * Crée les colonnes de la table
-		 * @param table 
+		 * Crï¿½e les colonnes de la table
+		 * @param table
 		 * @param functionColumn
 		 */
 		public void setSColumn(JTable table,
@@ -238,8 +241,8 @@ public class KarnaughMapPanel extends JDialog {
 		       sportColumn.setCellRenderer(renderer);
 }
 		/**
-		 * Permet de réinitialiser la table de Karnaugh<br>
-		 * après redimentionnement de celle-ci<br>
+		 * Permet de rï¿½initialiser la table de Karnaugh<br>
+		 * aprï¿½s redimentionnement de celle-ci<br>
 		 */
 		public void updateTable() {
 				this.table = createTable();
@@ -247,20 +250,20 @@ public class KarnaughMapPanel extends JDialog {
 				contentPanel.add(scrollPane, BorderLayout.CENTER);
 				this.getContentPane().repaint();
 				}
-	
+
 }
 
 /**
- * Modèle pour l'affichage de la table de Karnaugh
+ * Modï¿½le pour l'affichage de la table de Karnaugh
  */
 class KMapModel extends AbstractTableModel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Object[][] data;
 	private String[] title;
-  
+
 	public KMapModel(Object[][] data,String[] title){
 	  this.data = data;
 	  this.title = title;
@@ -287,7 +290,7 @@ class KMapModel extends AbstractTableModel {
         return data[row][col];
     }
 
- 
+
     public boolean isCellEditable(int row, int col) {
         if (col==0) {
             return false;
@@ -295,15 +298,15 @@ class KMapModel extends AbstractTableModel {
             return true;
         }
     }
-    
+
     public void setValueAt(Object value, int row, int col) {
         data[row][col] = value;
         fireTableCellUpdated(row, col);
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 }
 

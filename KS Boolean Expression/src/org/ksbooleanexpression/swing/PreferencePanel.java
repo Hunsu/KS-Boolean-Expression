@@ -16,7 +16,7 @@
 # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -44,12 +44,17 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.preferences.UserPreferences;
+import org.ksbooleanexpression.tools.Tools;
+import org.ksbooleanexpression.tools.View;
+
 /**
  * Ouvre une boite de dialogue pour modifier<br>
  * les pr�f�rences.
- * 
+ *
  * @author Meradi, Hamoudi
- * 
+ *
  */
 public class PreferencePanel extends JDialog implements View {
 
@@ -261,9 +266,9 @@ public class PreferencePanel extends JDialog implements View {
 
 	/**
 	 * Enregistre les pr�f�rences de l'utilisateurs
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	protected void savePreferences() throws Exception {
 		pref.setLanguage(getISOLanguageCode());

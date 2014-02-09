@@ -16,7 +16,7 @@
  # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.controller;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
@@ -28,6 +28,10 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.event.SwingPropertyChangeSupport;
+
+import org.ksbooleanexpression.preferences.UserPreferences;
+import org.ksbooleanexpression.swing.Program;
+import org.ksbooleanexpression.tools.Tools;
 
 /**
  * Une action dont les propri�t� sont lus depuis les fichiers resources.
@@ -260,9 +264,8 @@ public class ResourceAction extends AbstractAction {
 		if (smallIcon != null) {
 			System.out.println(getClass());
 			Program.class.getClassLoader().getResource(smallIcon);
-			System.out.println((smallIcon));
 			putValue(SMALL_ICON,
-					new ImageIcon(Program.class.getResource(smallIcon)));
+					new ImageIcon(Program.class.getClassLoader().getResource(smallIcon)));
 		}
 
 		String propertyKey = propertyPrefix + ACCELERATOR_KEY;

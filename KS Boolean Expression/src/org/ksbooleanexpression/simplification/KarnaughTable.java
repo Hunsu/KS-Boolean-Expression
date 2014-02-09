@@ -18,12 +18,12 @@
 
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.simplification;
 
 
 /**
  * Permet d'avoir la table de Karnaugh d'une fonction<br>
- * à partir de sa table de vérité.
+ * ï¿½ partir de sa table de vï¿½ritï¿½.
  * @author Mounir Hamoudi
  */
 
@@ -51,7 +51,7 @@ public class KarnaughTable {
 	private int nbVar;
 	/**
 	 * Constructeur de KarnaughTable
-	 * @param ttab la table de vérité
+	 * @param ttab la table de vï¿½ritï¿½
 	 * @param nbrVar le nombre de variables
 	 */
 	
@@ -82,19 +82,19 @@ public class KarnaughTable {
 	
 	/**
 	 * Remplit chaque case de la table de Karnaugh avec son adresse<br>
-	 * L'adresse est déterminée en utilisant le Code Gray <br>
+	 * L'adresse est dï¿½terminï¿½e en utilisant le Code Gray <br>
 	 */
 	
     private void fillWithCellAdress()
     {
-    	// PREMIER CAS: le nombre de variables est égal à 1
+    	// PREMIER CAS: le nombre de variables est ï¿½gal ï¿½ 1
   	  if(nbVar==1)
   	  {
   		  kmap[0][0].cellAdress=0;
   		  kmap[0][1].cellAdress=1;
   	  }
   	  else{  	  
-  	  // DEUXIEME CAS: le nombre de variables est égal à 2
+  	  // DEUXIEME CAS: le nombre de variables est ï¿½gal ï¿½ 2
   	  if(nbVar==2)
   	  {
   		  kmap[0][0].cellAdress=0;
@@ -210,7 +210,7 @@ public class KarnaughTable {
 	
 	/**
      * Remplit la table de Karnaugh avec les valeurs de la fonction<br>
-     * Les valeurs sont données dans la table de vérité<br>
+     * Les valeurs sont donnï¿½es dans la table de vï¿½ritï¿½<br>
      */
     
 	private void fillWithValues()
@@ -274,8 +274,8 @@ public class KarnaughTable {
     /**
      * Donne l'adresse de chaque celulle du premier bloc 4x4<br>
      * d'une table de karnaugh de taille 2x4 ou 4x4<br>
-     * @param m numéro de la celule déterminé par j%4+((i%4)*4)<br>
-     * tels que i numéro de la ligue et j numéro de la colonne<br>
+     * @param m numï¿½ro de la celule dï¿½terminï¿½ par j%4+((i%4)*4)<br>
+     * tels que i numï¿½ro de la ligue et j numï¿½ro de la colonne<br>
      * @return renvoit l'adresse de la celulle
      */
 
@@ -308,8 +308,8 @@ public class KarnaughTable {
     /**
      * Donne l'adresse de chaque celulle du premier bloc 4x4<br>
      * d'une table de karnaugh de taille 4x8 ou 8x8<br>
-     * @param m numéro de la celule déterminé par j%4+((i%4)*4)<br>
-     * tels que i numéro de la ligue et j numéro de la colonne<br>
+     * @param m numï¿½ro de la celule dï¿½terminï¿½ par j%4+((i%4)*4)<br>
+     * tels que i numï¿½ro de la ligue et j numï¿½ro de la colonne<br>
      * @return renvoit l'adresse de la celulle
      */
     
@@ -343,8 +343,8 @@ public class KarnaughTable {
 /**
  * Donne l'adresse de chaque celulle du premier bloc 4x4<br>
  * d'une table de karnaugh de taille 8x16 ou 16x16<br>
- * @param m numéro de la celule déterminé par j%4+((i%4)*4)<br>
- * tels que i numéro de la ligue et j numéro de la colonne<br>
+ * @param m numï¿½ro de la celule dï¿½terminï¿½ par j%4+((i%4)*4)<br>
+ * tels que i numï¿½ro de la ligue et j numï¿½ro de la colonne<br>
  * @return renvoit l'adresse de la celulle
  */
 
@@ -418,8 +418,8 @@ private void setNbrVar(int nbrVar)
 
 
 /**
- * Initialise la table de vérité et la taille de la table de Karnaugh
- * @param ttab la table de vérité
+ * Initialise la table de vï¿½ritï¿½ et la taille de la table de Karnaugh
+ * @param ttab la table de vï¿½ritï¿½
  */
 
 private void setTruthTable(int ttab[])

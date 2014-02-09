@@ -11,38 +11,41 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along with
-# this program; if not, write to the Free Software Foundation,  Inc., 
+# this program; if not, write to the Free Software Foundation,  Inc.,
 # 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.simplification;
 
 import java.util.Arrays;
 
+import org.ksbooleanexpression.simplification.exception.SyntaxErrorException;
+import org.ksbooleanexpression.tools.Tools;
+
 /**
- * Permet d'avoir la table de vérité d'une fonction<br>
- * à partir de son expression.
+ * Permet d'avoir la table de vï¿½ritï¿½ d'une fonction<br>
+ * ï¿½ partir de son expression.
  * @author Mounir Hamoudi
  *
  */
 
 
 public class TruthTable {
-	
-	private String exprBool; 
+
+	private String exprBool;
 	private String variables;
-	public int TruthTable[]; 
-	private SyntaxErrorException error; 
-	
+	public int TruthTable[];
+	private SyntaxErrorException error;
+
 	/**
-	 * Constructeurs par défaut
+	 * Constructeurs par dï¿½faut
 	 */
 	public TruthTable() {
 	}
-	 
-	
+
+
 	/**
 	 * Constructeur
 	 * @param expression l'expression de la fonction
@@ -57,36 +60,36 @@ public class TruthTable {
 
 
 	/**
-	 * Ajoute l'opérateur logique ET dans les emplacement<br>
+	 * Ajoute l'opï¿½rateur logique ET dans les emplacement<br>
 	 * ou il en manque. exemple: AB--> A*B
 	 */
-	
+
 	private void addAndOperator()
 	{
 		char ch[] = exprBool.toCharArray();
 		String newExpreBool = "";
-		
+
 		for(int i=0; i<ch.length-1; i++)
 		{
-			
-			if((ch[i]<='Z' && ch[i]>='A' && ch[i+1]<='Z' && ch[i+1]>='A') || (ch[i]<='Z' && ch[i]>='A' && ch[i+1]=='(') 
+
+			if((ch[i]<='Z' && ch[i]>='A' && ch[i+1]<='Z' && ch[i+1]>='A') || (ch[i]<='Z' && ch[i]>='A' && ch[i+1]=='(')
 					|| (ch[i]==')' && ch[i+1]<='Z' && ch[i+1]>='A') || (ch[i]==')' && ch[i+1]=='('))
 				newExpreBool = newExpreBool+ ch[i]+'*';
-			
-			else newExpreBool = newExpreBool+ ch[i];	
-			
+
+			else newExpreBool = newExpreBool+ ch[i];
+
 		}
 		newExpreBool = newExpreBool+ch[ch.length-1];
 		this.exprBool = newExpreBool;
 	}
-	
-	
+
+
 	/**
-	 * Permet de convertir un nombre du décimal au binaire<br>
-	 * Le résultat est donné sous forme d'un tableau de byte<br>
-	 * @param n le nombre à convertir vers la binaire<br>
+	 * Permet de convertir un nombre du dï¿½cimal au binaire<br>
+	 * Le rï¿½sultat est donnï¿½ sous forme d'un tableau de byte<br>
+	 * @param n le nombre ï¿½ convertir vers la binaire<br>
 	 * @param lesBit tableau qui contiendera les bit du nombre obtenu<br>
-	 * @param nbrVar le nombre de bit sur lesquel doit être écrit le résultat<br>
+	 * @param nbrVar le nombre de bit sur lesquel doit ï¿½tre ï¿½crit le rï¿½sultat<br>
 	 */
 	private void decimalToBinary(int n, int[] lesBit, int nbrVar)
 	{
@@ -97,15 +100,15 @@ public class TruthTable {
 			n= n/2;
 			nbrVar--;
 		}
-      	}	
+      	}
 	}
-		 
+
 
     /**
-	 * Donne la table de vérité après évaluation de l'éxpression booléenne<br>
-	 * La table de vérité est donné sous forme d'un vecteur à 2 puissance le nombre<br>
+	 * Donne la table de vï¿½ritï¿½ aprï¿½s ï¿½valuation de l'ï¿½xpression boolï¿½enne<br>
+	 * La table de vï¿½ritï¿½ est donnï¿½ sous forme d'un vecteur ï¿½ 2 puissance le nombre<br>
 	 * de variables.<br>
-	 * La case 0 correspond à l'état ou toutes les variables sont à 0 (Faux), et<br>
+	 * La case 0 correspond ï¿½ l'ï¿½tat ou toutes les variables sont ï¿½ 0 (Faux), et<br>
 	 * ainsi de suite... <br>
 	 */
 	private void getTruthTable()
@@ -115,18 +118,18 @@ public class TruthTable {
 	     getVariables();
 	     triVariables();
 	     if(variables.length() >8) error = new SyntaxErrorException(Tools.getLocalizedString("TOO_MUCH_VARIABLES"));
-	     
-	     //on initialise la table de vérité
+
+	     //on initialise la table de vï¿½ritï¿½
 	     TruthTable= new int[(int) Math.pow(2, variables.length())];
 	     int lesBit[]= new int[variables.length()];
 	     for(int i=0; i<lesBit.length; i++)
 			{
 	    	 lesBit[i]=0;
 			}
-	     //on remplit la table de vérité
+	     //on remplit la table de vï¿½ritï¿½
 	     for(int j=0; j<TruthTable.length; j++)
 	     {
-	    	 //on donne les valeurs aux variables et on les ajoute à l'evalueur
+	    	 //on donne les valeurs aux variables et on les ajoute ï¿½ l'evalueur
 	    	 //par exemple pour j=0, on obtiendra pour 3 var: lesBit={0, 0, 0}
 	    	 decimalToBinary(j, lesBit, variables.length());
 	    	 int k=0;
@@ -134,7 +137,7 @@ public class TruthTable {
 	    	 for(int i=0; i<variables.length(); i++)
 		     {
 		    	for(int index=0; index<expression.length;index++){
-		    		if(expression[index]==variables.charAt(i)) 
+		    		if(expression[index]==variables.charAt(i))
 		    			expression[index] =  (char)(lesBit[k]+48);
 		    	}
 		    	k++;
@@ -147,58 +150,58 @@ public class TruthTable {
 			} catch (SyntaxErrorException error) {
 				this.setError(error);
 				return;
-			} 
+			}
 	     }
 	    }
-	
-	
-	
-	
+
+
+
+
 	/**
-	 * Permet d'éxtraire les variables d'une expression booléenne<br>
-	 * donnée.<br>
-	 * Les variables sont ensuite placée dans la table des variables<br>
-	 * On garde leur ordre dans une chaine de type String.<br>	 
+	 * Permet d'ï¿½xtraire les variables d'une expression boolï¿½enne<br>
+	 * donnï¿½e.<br>
+	 * Les variables sont ensuite placï¿½e dans la table des variables<br>
+	 * On garde leur ordre dans une chaine de type String.<br>
 	 */
-	
+
 	private void getVariables()
 	{
 		 for(int i=0 ; i<exprBool.length(); i++)
 		 {
 			 char c = exprBool.charAt(i);
-			
+
 			if(c >='A' && c <= 'Z')
 			 {
 				if(variables.indexOf(c)<0) variables += c;
 			 }
-			 }	 
+			 }
 	}
-	
-	
+
+
 	/**
-	 * Retourne l'ordre des variables avec lequel a été <br>
-	 * évalée l'éxpression boolénne<br>
+	 * Retourne l'ordre des variables avec lequel a ï¿½tï¿½ <br>
+	 * ï¿½valï¿½e l'ï¿½xpression boolï¿½nne<br>
 	 * @return ordrVar l'ordre des variables, de type String<br>
 	 */
 	public String getVars()
 	{
 		return variables;
 	}
-	
-	
+
+
 	/**
-	 * Initialise l'éxpression bolléenne à évaluer<br>
-	 * @param exprBool l'éxpression booléenne, de type String<br>
+	 * Initialise l'ï¿½xpression bollï¿½enne ï¿½ ï¿½valuer<br>
+	 * @param exprBool l'ï¿½xpression boolï¿½enne, de type String<br>
 	 */
-	
+
 	private void setBooleanExpression(String exprBool)
 	{
 		this.exprBool=exprBool;
 	}
-	
+
 	/**
-	 * Tri les variables extraites de l'expression booléenne<br>
-	 * comme ça l'expression sera evalué en suivant l'ordre<br>
+	 * Tri les variables extraites de l'expression boolï¿½enne<br>
+	 * comme ï¿½a l'expression sera evaluï¿½ en suivant l'ordre<br>
 	 * alphabetique des variables.<br>
 	 */
 	public void triVariables()
@@ -206,7 +209,7 @@ public class TruthTable {
 		char[] ch = variables.toCharArray();
 		Arrays.sort(ch);
 		variables = new String(ch);
-		
+
 	}
 
 

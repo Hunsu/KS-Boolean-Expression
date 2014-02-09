@@ -12,12 +12,12 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along with
-# this program; if not, write to the Free Software Foundation,  Inc., 
+# this program; if not, write to the Free Software Foundation,  Inc.,
 # 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.tools;
 
 /**
  * Contient une liste d'ennumerations<br>
@@ -26,16 +26,16 @@ package com.ksbooleanexpression;
  *
  */
 public interface View {
-	
+
 	/**
-	 * Noms des Actions des éléments des menus et boutons.
+	 * Noms des Actions des ï¿½lï¿½ments des menus et boutons.
 	 */
     public enum ActionType {NEW, OPEN,SAVE,SAVE_AS,PREFERENCES,PRINT,EXIT,CLOSE, UNDO, REDO,
                         CUT,COPY,PASTE,SELECT_ALL,DELETE, TRUTH_TABLE, KARNAUGH_MAP,
                         NEW_FUNCTION,ALGEBRIC_FORM,NUMERIC_FORM,MINIMIZED_FUNCTION,
                         DETAILED_SOLUTION,HELP,ABOUT,AND, OR, NOT, NAND, NOR, XOR, IMPORT,EXPORT}
 	/**
-	 * Noms des Actions des différents menus
+	 * Noms des Actions des diffï¿½rents menus
 	 *
 	 */
 	public enum MenuActionType {FILE_MENU, EDIT_MENU, ADD_MENU, SIMPLIFY_MENU, HELP_MENU,
@@ -50,9 +50,9 @@ public interface View {
      */
     public enum SolutionType {DETAILLED_SOLUTION,MINIMIZED_FUNCTION}
     /**
-     * Constantes pour désigner une expression, une table<br>
-     * de vérité ou bien une table de Karnaugh.
+     * Constantes pour dï¿½signer une expression, une table<br>
+     * de vï¿½ritï¿½ ou bien une table de Karnaugh.
      */
-    
+
     public enum Type {FUNCTION,TRUTH_TABLE,KARNAUGH_MAP}
 }

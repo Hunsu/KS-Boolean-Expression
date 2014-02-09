@@ -16,7 +16,7 @@
  # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -24,6 +24,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -40,6 +43,15 @@ import javax.swing.JPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import org.ksbooleanexpression.preferences.UserPreferences;
+import org.ksbooleanexpression.simplification.Simplification;
+import org.ksbooleanexpression.swing.KarnaughMapPanel;
+import org.ksbooleanexpression.swing.NumericFunctionPanel;
+import org.ksbooleanexpression.swing.PreferencePanel;
+import org.ksbooleanexpression.swing.Program;
+import org.ksbooleanexpression.swing.TruthTablePanel;
+import org.ksbooleanexpression.tools.Tools;
+import org.ksbooleanexpression.tools.View;
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;
 import org.xhtmlrenderer.simple.XHTMLPrintable;
@@ -48,9 +60,9 @@ import com.lowagie.text.DocumentException;
 
 /**
  * Un controller pour l'application<br>
- * 
- * @author Meradi, Hamoudi 
- * 
+ *
+ * @author Meradi, Hamoudi
+ *
  */
 
 public class Controller implements View {
@@ -62,11 +74,13 @@ public class Controller implements View {
 	public Controller(Program program, UserPreferences prefs) {
 		this.program = program;
 		preferences = prefs;
+		preferences.addPropertyChangeListener(
+				new LanguageChangeListener(this));
 	}
 
 	/**
 	 * Ouvre la boite de dialogue A propos (About)
-	 * 
+	 *
 	 * @throws FileNotFoundException
 	 */
 	public void about() throws FileNotFoundException {
@@ -117,7 +131,7 @@ public class Controller implements View {
 	}
 
 	/**
-	 * 
+	 *
 	 * Active les fonctionnalit�s de l'application � l'initialisation.
 	 */
 	public void enableDefaultActions(Program program) {
@@ -214,7 +228,7 @@ public class Controller implements View {
 
 	/**
 	 * Retourne la version de l'application
-	 * 
+	 *
 	 * @return
 	 */
 	public String getVersion() {
@@ -324,7 +338,7 @@ public class Controller implements View {
 	 * Permet de cr�er un nouveau projet, en cas</br> de modification du projet
 	 * en cours un message sera</br> affich� � l'utilisateur lui demandant
 	 * d'enregistrer </br> son travail.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void newProject() throws IOException {
@@ -385,7 +399,7 @@ public class Controller implements View {
 
 	/**
 	 * Ouvre le fichier dont le chemin est path.
-	 * 
+	 *
 	 * @param path
 	 *            chemin
 	 */
@@ -464,7 +478,7 @@ public class Controller implements View {
 	/**
 	 * Permet d'�crire le symbole voulu en pressant sur les</br> diff�rents
 	 * bouttons de la bar des symbole.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void printSymbol(Integer type) {
@@ -553,7 +567,7 @@ public class Controller implements View {
 
 	/**
 	 * Permet de sauvegarder le projet en cours.</br>
-	 * 
+	 *
 	 */
 	public void saveAs() {
 		try {
@@ -583,7 +597,7 @@ public class Controller implements View {
 
 	/**
 	 * Permet d'afficher le r�sultat de la simplifiication</br>
-	 * 
+	 *
 	 */
 	private void showSolution() {
 		program.getTabbedPane().remove(0);
@@ -606,7 +620,7 @@ public class Controller implements View {
 	/**
 	 * Lance la simplification � partir d'une expression</br> introduite dans le
 	 * JTextField.
-	 * 
+	 *
 	 * @param solutionType
 	 *            type de la solution (simple ou d�taill�e)
 	 */
@@ -625,7 +639,7 @@ public class Controller implements View {
 
 	/**
 	 * Simplifie une fonction donn�e sous frome num�rique
-	 * 
+	 *
 	 * @param sets0
 	 * @param sets1
 	 */
@@ -661,7 +675,7 @@ public class Controller implements View {
 
 	/**
 	 * Lance la simplification � partir d'une table</br> de Karnaugh.
-	 * 
+	 *
 	 * @param kmap
 	 *            la table de Karnaugh
 	 * @param nbrVar
@@ -680,7 +694,7 @@ public class Controller implements View {
 
 	/**
 	 * Lance la simplification � partir d'une table</br> de v�rit�.
-	 * 
+	 *
 	 * @param ttable
 	 *            la table de v�rit�
 	 * @param nbrVar
@@ -761,5 +775,44 @@ public class Controller implements View {
 
 		}
 	}
+
+
+
+	/**
+	 * Un �couteur pour d�tecter si la langue de l'application est chang�e
+	 */
+	private static class LanguageChangeListener implements
+			PropertyChangeListener {
+		private final WeakReference<Controller> controller;
+
+		public LanguageChangeListener(Controller controller) {
+			this.controller = new WeakReference<Controller>(controller);
+		}
+
+		public void propertyChange(PropertyChangeEvent ev) {
+
+			Program program = this.controller.get().program;
+			if (program == null) {
+				((UserPreferences) ev.getSource())
+						.removePropertyChangeListener("language", this);
+			} else {
+				program.getTabbedPane().setTitleAt(0,
+						Tools.getLocalizedString("PROJECT"));
+				if (program.getMainPanel().getTextField().getText()
+						.compareTo("") != 0)
+					if (program.getUserPreferences().getSolutionType()
+							.compareTo(SolutionType.DETAILLED_SOLUTION) == 0)
+						program.getController().simplify(
+								SolutionType.DETAILLED_SOLUTION);
+					else
+						program.getController().simplify(
+								SolutionType.MINIMIZED_FUNCTION);
+				program.getMainPanel().lblF.setText(Tools
+						.getLocalizedString("FORMULA"));
+			}
+		}
+	}
+
+
 
 }

@@ -16,7 +16,7 @@
 # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -55,6 +55,13 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.controller.ControllerAction;
+import org.ksbooleanexpression.controller.ResourceAction;
+import org.ksbooleanexpression.preferences.UserPreferences;
+import org.ksbooleanexpression.tools.Tools;
+import org.ksbooleanexpression.tools.View;
+
 /**
  *
  * @author Hamoudi, Meradi
@@ -62,42 +69,7 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class Program implements View, TreeSelectionListener {
 
-	/**
-	 * Un �couteur pour d�tecter si la langue de l'application est chang�e
-	 */
-	private static class LanguageChangeListener implements
-			PropertyChangeListener {
-		private final WeakReference<Program> program;
-
-		public LanguageChangeListener(Program program) {
-			this.program = new WeakReference<Program>(program);
-		}
-
-		public void propertyChange(PropertyChangeEvent ev) {
-			
-			Program program = this.program.get();
-			if (program == null) {
-				((UserPreferences) ev.getSource())
-						.removePropertyChangeListener("language", this);
-			} else {
-				program.getTabbedPane().setTitleAt(0,
-						Tools.getLocalizedString("PROJECT"));
-				if (program.getMainPanel().getTextField().getText()
-						.compareTo("") != 0)
-					if (program.getUserPreferences().getSolutionType()
-							.compareTo(SolutionType.DETAILLED_SOLUTION) == 0)
-						program.getController().simplify(
-								SolutionType.DETAILLED_SOLUTION);
-					else
-						program.getController().simplify(
-								SolutionType.MINIMIZED_FUNCTION);
-				program.getMainPanel().lblF.setText(Tools
-						.getLocalizedString("FORMULA"));
-			}
-		}
-	}
-
-	private JFrame frame;
+		private JFrame frame;
 	private Controller controller;
 	private UserPreferences userPreferences;
 	private JPanel panel;
@@ -109,7 +81,7 @@ public class Program implements View, TreeSelectionListener {
 	private ActionMap actionMap;
 	private JPopupMenu popupMenu;
 
-	static Image programIcon = Toolkit.getDefaultToolkit().getImage(
+	public static Image programIcon = Toolkit.getDefaultToolkit().getImage(
 			Tools.getApplicationFolder() + "resources/Program_Icone.jpg");
 
 	/**
@@ -476,8 +448,6 @@ public class Program implements View, TreeSelectionListener {
 	 */
 	private void initialize() {
 		setUserPreferences(new UserPreferences());
-		getUserPreferences().addPropertyChangeListener(
-				new LanguageChangeListener(this));
 		try {
 			UIManager.setLookAndFeel(getUserPreferences().getLookAndFeel());
 		} catch (Exception e) {

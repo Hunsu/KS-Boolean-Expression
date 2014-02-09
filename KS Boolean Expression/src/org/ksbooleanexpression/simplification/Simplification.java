@@ -12,18 +12,22 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along with
-# this program; if not, write to the Free Software Foundation,  Inc., 
+# this program; if not, write to the Free Software Foundation,  Inc.,
 # 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.simplification;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.ksbooleanexpression.controller.Controller;
+import org.ksbooleanexpression.tools.Tools;
+import org.ksbooleanexpression.tools.View;
 
 
 /**
@@ -36,7 +40,7 @@ import java.util.ArrayList;
  */
 
 public class Simplification implements View {
-	
+
 	/**
 	 * KarnaughNode Structure<br>
 	 * Structure d'un regroupement de 1<br>
@@ -55,16 +59,16 @@ public class Simplification implements View {
 		public String nodes;
 		public boolean flag;
 		public KarnaughNode() {
-			
+
 		}
-		
+
 		public KarnaughNode(String nodes,boolean flag,int numberOfItems)
 		{
 			this.nodes=nodes;
 			this.flag=flag;
 			this.numberOfItems=numberOfItems;
 		}
-		
+
 		public void addCellAdress(String adress){
 			if(cellesAdress ==null) cellesAdress=new ArrayList<String>();
 			cellesAdress.add(adress);
@@ -79,7 +83,7 @@ public class Simplification implements View {
 	private String ordrVar;
 	private String s;
 	private boolean detailledSolution;
-		                           
+
 	private Controller controller;
 	/**
 	 * Constructeur
@@ -88,9 +92,9 @@ public class Simplification implements View {
 	 * @param ordrVar l'ordre des variables
 	 * @param controller controller de l'application
 	 */
-	
+
 	public Simplification(int ttable[], int nbrVar, String ordrVar, Controller controller){
-	
+
 		this.controller = controller;
 		truthTable = new TruthTable();
 		truthTable.TruthTable = ttable;
@@ -100,7 +104,7 @@ public class Simplification implements View {
 		kmap = new KarnaughTable(ttable, nbrVar);
 		this.ordrVar = ordrVar;
 		}
-	
+
 		/**
 		 * Constructeurs
 		 * @param kmap la table de Karnaugh
@@ -108,17 +112,17 @@ public class Simplification implements View {
 		 * @param ordrVar l'ordre des variables
 		 */
 	public Simplification(int kmap[][], int nbrVar, String ordrVar, Controller controller){
-		
+
 		this.controller = controller;
 		nombreVars=nbrVar;
 		this.ordrVar = ordrVar;
 		s="";
 		s +=Tools.intialize();
 		this.kmap = new KarnaughTable(kmap,nombreVars);
-		
+
 		}
-	
-	
+
+
 	/**
 	 * Constructeur
 	 * @param strings les fonctions � simplifi�es
@@ -134,11 +138,11 @@ public class Simplification implements View {
 		s +=Tools.intialize();
 		s +=Tools.writeIntroducedFunctions(strings);
 		this.controller = controller;
-		
-		
-		
+
+
+
 		}
-	
+
 
 	/**
 	    * Verifie si un regroupement existe d�j� dans la liste des regroupements<br>
@@ -150,15 +154,15 @@ public class Simplification implements View {
 		   for (int i=0;i<arrayList.size();i++){
 			if(arrayList.get(i).nodes.compareTo(n.nodes)==0)
 			{
-				exist = true; break; 
+				exist = true; break;
 			}
 		}
 		return exist;
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Retourne l'adresse en binaire d'une celulle
 	 * @param cellAdress l'adresse de la celulle en d�cimal
@@ -180,9 +184,9 @@ public class Simplification implements View {
 	  	}
 		for(int i=0; i<bt.length; i++) binaryAdress = binaryAdress +bt[i];
 		return binaryAdress;
-		
-	}	
-	
+
+	}
+
 	private void deleteUnneededNodes(){
 		int [][] temp = new int[kmap.getRow()][kmap.getColumn()];
 		boolean del=false;
@@ -203,13 +207,13 @@ public class Simplification implements View {
 						}
 					}
 				}
-				
+
 				del=true;
 				for(int j=0; j<kmap.getRow(); j++)
 				{
 					for(int k=0; k<kmap.getColumn(); k++)
 					{
-						if(temp[j][k]!=kmap.getCellValue(j, k)) 
+						if(temp[j][k]!=kmap.getCellValue(j, k))
 						{
 							del=false;
 							break;
@@ -223,34 +227,34 @@ public class Simplification implements View {
 				arrayList.remove(i);
 				i--;
 			}
-			
-			
+
+
 		}
 	}
-	
+
 	/**
 	 * Supprime les regoupement de 1 qui sont utilis�s pour former<br>
 	 * d'autre regroupement plus grand.
 	 */
-	
+
 	private void deleteUsedBlocs()
 	{
 		for(int i=0; i<arrayList.size(); i++)
 		{
-			if(arrayList.get(i).flag) 
-				
+			if(arrayList.get(i).flag)
+
 				{arrayList.remove(i); i--;}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Verifie si on est � la fin des terms d'un regroupement
 	 * @param ch adresse du regroupement
 	 * @param i la position actuelle dans l'adresse du groupement
 	 * @return true si oui, false sinon
 	 */
-	
+
 	private boolean endOfTerms(String ch, int i)
 	{
 		boolean end=true;
@@ -263,17 +267,17 @@ public class Simplification implements View {
 				break;
 			}
 		}
-		return end;	
+		return end;
 	}
-	
-	
+
+
 	/**
 	 * Permet de r�cup�rer l'expression de la fonction<br>
 	 * � partir de la table de Karnaugh de celle-ci.
 	 * @param nbrVar le nombre de variables
 	 * @return l'expression de la fonction
 	 */
-	
+
 	public String functionFromKmap(int nbrVar)
 	{
 		int truthTable[] = new int [kmap.getRow()*kmap.getColumn()];
@@ -284,10 +288,10 @@ public class Simplification implements View {
 		}
 		String func = getFunctionFromTruthTable(truthTable, nbrVar);
 		return func;
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Combine entre les cellule participants � une regroupement.
 	 * @param karnaughNode le premier regroupement.
@@ -304,9 +308,9 @@ public class Simplification implements View {
 	}
 	return arrayList;
 }
-	
-	
-	
+
+
+
 	/**
 	 * Permet de r�cup�rer l'expression de la fonction<br>
 	 * � partir de la table de v�rit� de celle-ci.
@@ -321,53 +325,53 @@ public class Simplification implements View {
 			for (int j=0;j<nbrVar;j++){
                 if ((i%((int)Math.pow(2, nbrVar-j)))<((int)Math.pow(2, nbrVar-j-1)))
 					   function += "!" +String.valueOf((char) k)+"*";
-				else   function += String.valueOf((char) k)+"*"; 
+				else   function += String.valueOf((char) k)+"*";
                 k++;
 			}
 			function = function.substring(0,function.length()-1);
             function += "+";
 			}
 		}
-		function = function.substring(0,function.length()-1);	
+		function = function.substring(0,function.length()-1);
 		return function;
 	}
-		
+
 	/**
 	 * Retourne la fonction (l'expression) simplifi�e
 	 * @return minimisedExpression l'expression simplifi�e (String)
 	 */
-	
+
 	public String getMinimisedExpression()
 	{
 		return minimisedExpression;
 	}
-		
-		
+
+
 		/**
 		 * Si on trouve deux regroupement qui peuvent �tre regroup�s<br>
 		 * alors on utlise cette fonction pour obtenir la nouvelle adresse<br>
-		 * le bit qui change sera remplac� par le chiffre 2.  
+		 * le bit qui change sera remplac� par le chiffre 2.
 		 * @param binAdress1 l'adresse de l'un des deux regroupement
-		 * @param pos la position du bit qui diff�re. 
+		 * @param pos la position du bit qui diff�re.
 		 * @return la nouvelle adresse sous forme de chaine
 		 */
 		private String getNewBinaryAdress(String binAdress1, int pos)
 		{
 			String newAdress = "";
-			for(int i=0; i<binAdress1.length(); i++) 
+			for(int i=0; i<binAdress1.length(); i++)
 			{
 				if(i==pos) {newAdress= newAdress+"2"; continue;}
 				newAdress = newAdress+binAdress1.charAt(i);
 			}
-					
-			return newAdress;	
+
+			return newAdress;
 		}
-	   
+
 	   /**
 	 * Verifie si toutes les celulle de la table de Karnaugh sont � un
 	 * @return retourne true si oui, false sinon
 	 */
-	
+
 	private boolean isAllOnes()
 	{
 		boolean isAllOnes=true;
@@ -375,7 +379,7 @@ public class Simplification implements View {
 		{
 			for(int j=0; j<kmap.getColumn(); j++)
 			{
-				if(kmap.getCellValue(i, j)==0) {isAllOnes=false; break;}	
+				if(kmap.getCellValue(i, j)==0) {isAllOnes=false; break;}
 			}
 		}
 		return isAllOnes;
@@ -392,14 +396,14 @@ public class Simplification implements View {
 		{
 			for(int j=0; j<kmap.getColumn(); j++)
 			{
-				if(kmap.getCellValue(i, j)==1) {isAllZero=false; break;}	
+				if(kmap.getCellValue(i, j)==1) {isAllZero=false; break;}
 			}
 		}
-		return isAllZero;	
+		return isAllZero;
 	}
-		
-		
-		
+
+
+
 		private boolean IsAtCell(int j, int k, String nodes) {
 			String s = binaryCode(kmap.getCellAdress(j, k),nombreVars);
 			char[] a = nodes.toCharArray();
@@ -409,9 +413,9 @@ public class Simplification implements View {
 			}
 			return true;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Verifie si deux regoupement peuvent �tre regoup�s pour former<br>
 		 * un noueau groupement
@@ -421,12 +425,12 @@ public class Simplification implements View {
 		 */
 		private int IsJoinable(KarnaughNode karnaughNode,
 				KarnaughNode karnaughNode2) {
-			
+
 		return isOneBitDeferent(karnaughNode.nodes, karnaughNode2.nodes);
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Verifie si deux adresse ne contient qu'un seul bit qui est diff�rent<br>
 		 * @param binAdress1  l'adresse de la celulle 1
@@ -435,9 +439,9 @@ public class Simplification implements View {
 		 */
 		private int isOneBitDeferent(String binAdress1, String binAdress2 )
 		{
-			
+
 			int pos=-1; int bitDefer=0;
-			
+
 			for(int i=0; i<binAdress1.length(); i++)
 			{
 				if(binAdress1.charAt(i)!= binAdress2.charAt(i))
@@ -448,9 +452,9 @@ public class Simplification implements View {
 			}
 			if(bitDefer!=1) pos=-1;
 			return pos;
-			
+
 		}
-		
+
 		/**
 		 * Permet de lancer la simplification
 		 * @param type forme de la fonction � simplifier.
@@ -479,12 +483,12 @@ public class Simplification implements View {
 				nombreVars=truthTable.getVars().length();
 				ordrVar = truthTable.getVars();
 				kmap = new KarnaughTable(truthTable.TruthTable,nombreVars);
-				
+
 				this.s +=Tools.writeSolution(minimisedExpression, i);
 				if(detailledSolution && nombreVars!=1) this.s +=Tools.writeKarnaughMap(kmap, nombreVars);
 				if(functions.length==1 && detailledSolution && nombreVars!=1 ) this.s +=Tools.writeTruthTable(truthTable, nombreVars,ordrVar);
 				i++;
-				}					
+				}
 			    break;
 			case TRUTH_TABLE :
 				String function[] = new String[1];
@@ -500,7 +504,7 @@ public class Simplification implements View {
 				s +=Tools.writeKarnaughMap(kmap, nombreVars);
 				s +=Tools.writeTruthTable(truthTable, nombreVars,ordrVar);
 				break;
-				
+
 			case KARNAUGH_MAP :
 				String func[] = new String[1];
 				func[0] = functionFromKmap(nombreVars);
@@ -519,7 +523,7 @@ public class Simplification implements View {
 			}
 			writeSolution();
 		}
-		
+
 		/**
 		    * Calcul le log2 d'un nombre donn� x<br>
 		    * @param x de type double
@@ -528,13 +532,13 @@ public class Simplification implements View {
 		    private double log2(double x){
 				return Math.log(x)/Math.log(2);
 			}
-		
-		
+
+
 		/**
 		 * Parcourt la liste des regoupement pour �crire l'expression simplifi�<br>
 		 * sous forme de chaine (String).
 		 */
-		
+
 		private void minimisedExpression()
 		{
 			String ch = "";
@@ -550,21 +554,21 @@ public class Simplification implements View {
 						if(tabChar[j]=='1'){ ch=ch+ordrVar.charAt(j);
 						if(!endOfTerms(arrayList.get(i).nodes, j)) ch=ch+"*";}
 					}
-					
+
 				}
 				if(i!=arrayList.size()-1) ch=ch+"+";
 			}
 			minimisedExpression = ch;
 		}
-		
+
 		/**
 		 * Parcourt la liste des groupement de 1 et cr�ee tout le groupement<br>
 		 * possible<br>
 		 * un groupement peut contenir 2, 4, 8, 16,... �l�ments (celulles)<br>
 		 */
-		
+
 		@SuppressWarnings("unchecked")
-		private void regroupe() 
+		private void regroupe()
 		{
 				int x = (int)log2(kmap.getColumn()*kmap.getRow());
 				ArrayList<KarnaughNode> array = new ArrayList<KarnaughNode>();
@@ -574,7 +578,7 @@ public class Simplification implements View {
 					{
 						for(int k=0;k<arrayList.size();k++)
 						{
-							if (arrayList.get(j).numberOfItems== (int) Math.pow(2, i-1) && 
+							if (arrayList.get(j).numberOfItems== (int) Math.pow(2, i-1) &&
 									arrayList.get(k).numberOfItems== (int) Math.pow(2, i-1))
 							{
 								int y =IsJoinable(arrayList.get(j),arrayList.get(k));
@@ -589,12 +593,12 @@ public class Simplification implements View {
 									arrayList.get(k).flag=true;
 									if(!alreadyExist(n))
 									arrayList.add(n);
-									
+
 								}
 							}
 						}
 					}
-					
+
 					for (int s=0;s<arrayList.size();s++){
 					if (arrayList.get(s).numberOfItems== (int) Math.pow(2, i-1)){
 						array.add(arrayList.get(s));
@@ -606,7 +610,7 @@ public class Simplification implements View {
 				arrayList =  (ArrayList<KarnaughNode>) array.clone();
 				deleteUsedBlocs();
 		}
-		
+
 		/**
 		 * Supprime les espaces dans la fonction introduite.
 		 * @param s l'expression de la fonction
@@ -615,15 +619,15 @@ public class Simplification implements View {
 			char [] data = s.toCharArray();
 			s = "";
 			for (char c : data){
-				if (c != ' ') s = s + String.valueOf(c); 
+				if (c != ' ') s = s + String.valueOf(c);
 			}
 			return s;
 		}
-		
+
 		/**
 		 * Fonction qui simplifie l'expression bool�enne introduite.
 		 */
-		
+
 		private void solve()
 		{
 				if(isAllOnes()){
@@ -631,7 +635,7 @@ public class Simplification implements View {
 				}
 				else{
 					if(isAllZero()) minimisedExpression = "0";
-						
+
 					else{
 				arrayList = new ArrayList<KarnaughNode>();
 				for (int i=0;i<kmap.getRow();i++)
@@ -645,18 +649,18 @@ public class Simplification implements View {
 							n.numberOfItems=1;
 							n.nodes=binaryCode(kmap.getCellAdress(i, j),nombreVars);
 							n.addCellAdress(n.nodes);
-							arrayList.add(n); 
+							arrayList.add(n);
 						}
 					}
-					
+
 				}
 				regroupe();
 				deleteUnneededNodes();
-				minimisedExpression();			
+				minimisedExpression();
 			}
 				}
 		}
-		
+
 		/**
 		 * Ecrit la solution en HTML dans un fichier temporaire.
 		 */
@@ -671,10 +675,10 @@ public class Simplification implements View {
 				bw.write(s);
 				bw.close();
 			} catch (IOException e) {
-				System.err.println( e.getMessage() );}	
-			
-		}		
-	
+				System.err.println( e.getMessage() );}
+
+		}
+
 	}
-	
+
 

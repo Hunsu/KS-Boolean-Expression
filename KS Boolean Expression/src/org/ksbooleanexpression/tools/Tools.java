@@ -15,7 +15,7 @@
 # 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-package com.ksbooleanexpression;
+package org.ksbooleanexpression.tools;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -41,6 +41,9 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
+import org.ksbooleanexpression.simplification.KarnaughTable;
+import org.ksbooleanexpression.simplification.TruthTable;
+import org.ksbooleanexpression.swing.Program;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
