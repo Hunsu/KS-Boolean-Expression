@@ -181,10 +181,10 @@ public class TruthTable {
 	}
 
 	/**
-	 * Initialise l'�xpression boll�enne � �valuer<br>
+	 * Initialise l'éxpression bolléenne à évaluer<br>
 	 *
 	 * @param exprBool
-	 *            l'�xpression bool�enne, de type String<br>
+	 *            l'éxpression booléenne, de type String<br>
 	 */
 
 	private void setBooleanExpression(String exprBool) {
@@ -192,8 +192,8 @@ public class TruthTable {
 	}
 
 	/**
-	 * Tri les variables extraites de l'expression bool�enne<br>
-	 * comme �a l'expression sera evalu� en suivant l'ordre<br>
+	 * Tri les variables extraites de l'expression booléenne<br>
+	 * comme ça l'expression sera evalué en suivant l'ordre<br>
 	 * alphabetique des variables.<br>
 	 */
 	public void triVariables() {

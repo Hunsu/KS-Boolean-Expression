@@ -1,2 +1,6 @@
-Main-Class: com.ksbooleanexpression.Main
-Class-Path: . lib/core-renderer.jar lib/iText-2.0.8.jar lib/jlatexmath-0.9.7.jar
+Manifest-Version: 1.0
+Rsrc-Class-Path: ./ core-renderer.jar jlatexmath-0.9.7.jar iText-2.0.8
+ .jar
+Class-Path: .
+Main-Class: org.ksbooleanexpression.Main
+
