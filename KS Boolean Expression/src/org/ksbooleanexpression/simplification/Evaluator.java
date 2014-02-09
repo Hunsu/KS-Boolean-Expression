@@ -37,7 +37,7 @@ public class Evaluator {
 					if (c == '1')
 						al.add(true);
 					else
-						al.add(c);
+						al.add(String.valueOf(c));
 				}
 			}
 		}
@@ -98,7 +98,7 @@ public class Evaluator {
 							al.remove(i - 1);
 							al.remove(i - 1);
 							al.remove(i - 1);
-							al.add(i - 1, String.valueOf(arg1 || arg2));
+							al.add(i - 1, arg1 || arg2);
 							i--;
 							break;
 						case '^':

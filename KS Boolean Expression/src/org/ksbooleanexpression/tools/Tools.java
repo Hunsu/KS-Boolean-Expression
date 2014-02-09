@@ -645,6 +645,7 @@ public class Tools implements View {
 				+ Tools.getLocalizedString("KARNAUGH_MAP.Name") + ":" + "</h3>";
 
 		s += "<table width=\"" + width + "\"><tr>";
+		s += "<th></th>";
 
 		String[] colomNames = getColonneName(nbrVars);
 		String[] linesNames = getLigneName(nbrVars);
